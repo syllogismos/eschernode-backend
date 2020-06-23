@@ -1,0 +1,3 @@
+[submodule "balaji"]
+	path = balaji
+	url = git@github.com:syllogismos/balaji.git

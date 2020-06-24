@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
+import elasticsearch
 from firebase_admin import firestore, auth
 from firebase_admin import credentials
 import firebase_admin
@@ -145,3 +146,6 @@ firebase_admin.initialize_app(cred)
 
 db = firestore.client()
 def get_user(uid): return auth.get_user(uid)
+
+
+es = elasticsearch.Elasticsearch()

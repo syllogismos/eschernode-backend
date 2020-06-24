@@ -3,9 +3,9 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 from firebase_admin.auth import UserNotFoundError
 
-from backend.settings import get_user, db
+from backend.settings import get_user, db, es
 from core.models import UserDetails
-from balaji.filters import getESQueryFromFilters
+from balaji.filters import getESQueryFromFilters, ParseFilterExcpetion
 
 # Create your views here.
 
@@ -58,6 +58,16 @@ def update_user_details(request):
 def get_filtered_users(request):
     if request.method == 'POST':
         js = json.loads(request.body.decode('utf-8'))
+        id_str = js['id_str']
+        try:
+            u = get_user(js['uid'])
+        except UserNotFoundError:
+            return JsonResponse({"status": 400, "message": "User Not Authenticated"})
         # print(js)
-        print(getESQueryFromFilters(js['filters'], 'anil', 10))
-        return JsonResponse({"status": 200, "message": "Users Returned"})
+        try:
+            es_query = getESQueryFromFilters(js['filters'], id_str, 30)
+        except ParseFilterExcpetion:
+            return JsonResponse({"status": 400, "message": "Improper Filter"})
+        print(es_query)
+        es_response = es.search(body=es_query)
+        return JsonResponse({"status": 200, "message": "Users Returned", "es_response": es_response})

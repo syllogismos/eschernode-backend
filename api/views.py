@@ -5,6 +5,7 @@ from firebase_admin.auth import UserNotFoundError
 
 from backend.settings import get_user, db
 from core.models import UserDetails
+from balaji.filters import getESQueryFromFilters
 
 # Create your views here.
 
@@ -57,5 +58,6 @@ def update_user_details(request):
 def get_filtered_users(request):
     if request.method == 'POST':
         js = json.loads(request.body.decode('utf-8'))
-        print(js)
+        # print(js)
+        print(getESQueryFromFilters(js['filters'], 'anil', 10))
         return JsonResponse({"status": 200, "message": "Users Returned"})

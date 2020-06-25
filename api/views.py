@@ -6,6 +6,7 @@ from firebase_admin.auth import UserNotFoundError
 from backend.settings import get_user, db, es
 from core.models import UserDetails
 from balaji.filters import getESQueryFromFilters, ParseFilterExcpetion
+from balaji.config import create_api_from_creds
 
 # Create your views here.
 
@@ -65,9 +66,30 @@ def get_filtered_users(request):
             return JsonResponse({"status": 400, "message": "User Not Authenticated"})
         # print(js)
         try:
-            es_query = getESQueryFromFilters(js['filters'], id_str, 30)
+            es_query = getESQueryFromFilters(
+                js['filters'], id_str, js['size'])
         except ParseFilterExcpetion:
             return JsonResponse({"status": 400, "message": "Improper Filter"})
         print(es_query)
         es_response = es.search(body=es_query)
         return JsonResponse({"status": 200, "message": "Users Returned", "es_response": es_response})
+
+
+@csrf_exempt
+def send_test_dm(request):
+    if request.method == 'POST':
+        js = json.loads(request.body.decode('utf-8'))
+        twitterHandle = js['twitterHandle']
+        dm = js['dm']
+        try:
+            u = get_user(js['uid'])
+        except UserNotFoundError:
+            return JsonResponse({"status": 400, "message": "User Not Authenticated"})
+        user_details = db.collection(u'userdetails').document(
+            js['uid']).get().to_dict()
+        # print(user_details)
+        api = create_api_from_creds(user_details['api_key'], user_details['api_secret'],
+                                    user_details['access_token'], user_details['access_token_secret'])
+        twitterUser = api.get_user(screen_name=twitterHandle)
+        api.send_direct_message(twitterUser.id, dm)
+        return JsonResponse({"status": 200, "message": "dm sent successfully"})

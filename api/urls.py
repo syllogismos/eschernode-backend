@@ -8,4 +8,5 @@ urlpatterns = [
     path('update_user_details', views.update_user_details,
          name="update_user_details"),
     path('get_filtered_users', views.get_filtered_users, name="get_filtered_users"),
+    path('send_test_dm', views.send_test_dm, name="send_test_dm")
 ]

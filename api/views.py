@@ -93,3 +93,28 @@ def send_test_dm(request):
         twitterUser = api.get_user(screen_name=twitterHandle)
         api.send_direct_message(twitterUser.id, dm)
         return JsonResponse({"status": 200, "message": "dm sent successfully"})
+
+
+@csrf_exempt
+def start_campaign(request):
+    if request.method == 'POST':
+        js = json.loads(request.body.decode('utf-8'))
+        # campaignName = js['campaignName']
+        # dm = js['dm']
+        # text = js['text']
+        # url = js['url']
+        # linkCheck = js['linkCheck']
+        # filters = js['filters']
+        uid = js['uid']
+        try:
+            u = get_user(js['uid'])
+        except UserNotFoundError:
+            return JsonResponse({"status": 400, "message": "User Not Authenticated"})
+        campaignRef = db.collection(u'campaigns').document()
+        campaignId = campaignRef.id
+        try:
+            print(js['data'])
+            campaignRef.set(js['data'])
+            return JsonResponse({"status": 200, "message": "Campaign Started", "campaignId": campaignId})
+        except:
+            return JsonResponse({"status": 400, "message": "Creating campaign failed"})

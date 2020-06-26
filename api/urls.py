@@ -10,4 +10,9 @@ urlpatterns = [
     path('get_filtered_users', views.get_filtered_users, name="get_filtered_users"),
     path('send_test_dm', views.send_test_dm, name="send_test_dm"),
     path('start_campaign', views.start_campaign, name="start_campaign"),
+    path('execute_es_search_query', views.execute_es_search_query,
+         name="execute_es_search_query"),
+    path('click_track', views.click_track, name="click_track"),
+    path('subscribe_conversion', views.subscribe_conversion,
+         name="subscribe_conversion"),
 ]

@@ -1,0 +1,3 @@
+# packages in environment at /Users/anil/anaconda3/envs/escher:
+#
+# Name                    Version                   Build  Channel

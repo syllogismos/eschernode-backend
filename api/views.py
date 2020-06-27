@@ -8,6 +8,7 @@ from core.models import UserDetails
 from balaji.filters import getESQueryFromFilters, ParseFilterExcpetion
 from balaji.config import create_api_from_creds
 import datetime
+from balaji.indexusers import index_users
 # Create your views here.
 
 from django.http import HttpResponse, JsonResponse
@@ -158,3 +159,22 @@ def subscribe_conversion(request):
         print(js)
         es.index('conversions', body=js)
         return JsonResponse({"status": 200})
+
+
+@csrf_exempt
+def start_index_users(request):
+    if request.method == 'POST':
+        js = json.loads(request.body.decode('utf-8'))
+        try:
+            u = get_user(js['uid'])
+        except UserNotFoundError:
+            return JsonResponse({"status": 400, "message": "User not authenticated"})
+        user_details = db.collection(u'userdetails').document(
+            js['uid']
+        ).get().to_dict()
+        if 'index_status' in user_details and user_details['index_status'] == 'indexing':
+            return JsonResponse({"status": 200, "message": "Indexing already started"})
+            # do a api.me call here and if it fails send a message creds are wrong
+        else:
+            index_users.send(js['uid'])
+            return JsonResponse({"status": 200, "message": "Indexing Started"})

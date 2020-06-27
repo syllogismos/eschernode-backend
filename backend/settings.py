@@ -18,6 +18,9 @@ import os
 from dramatiq.brokers.rabbitmq import RabbitmqBroker
 import dramatiq
 
+if 'ESCHERNODE_ENV' not in os.environ:
+    os.environ['ESCHERNODE_ENV'] = ''
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 

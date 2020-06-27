@@ -15,4 +15,5 @@ urlpatterns = [
     path('click_track', views.click_track, name="click_track"),
     path('subscribe_conversion', views.subscribe_conversion,
          name="subscribe_conversion"),
+    path('start_index_users', views.start_index_users, name="start_index_users"),
 ]

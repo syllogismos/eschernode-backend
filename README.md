@@ -108,7 +108,11 @@ discovery.ec2.groups: sg-0843e97d
 
 sudo /usr/share/elasticsearch/bin/elasticsearch-plugin install discovery-ec2
 
+https://www.elastic.co/guide/en/elasticsearch/reference/7.8/modules-discovery-hosts-providers.html discovery ec2 elasticsearch
+
 /etc/elasticsearch/jvm.options heap size
+
+https://www.elastic.co/guide/en/elasticsearch/reference/current/jvm-options.html jvm options heap size
 
 ubuntu@ip-172-30-0-151:~$ sudo systemctl restart elasticsearch
 ubuntu@ip-172-30-0-151:~$ sudo vim /etc/default/elasticsearch

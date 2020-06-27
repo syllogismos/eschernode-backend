@@ -29,7 +29,7 @@ SECRET_KEY = 'f*n6e14&wt&i_3#cb8tw)m)bpvt@_4f^05-mzi39!tlv2spam5'
 # SECURITY WARNING: don't run with debug turned on in production!
 if os.environ['ESCHERNODE_ENV'] == 'prod':
     CORS_ORIGIN_WHITELISt = [
-        'http://eschernode.s3-website-us-east-1.amazonaws.com']
+        'http://eschernode.s3-website-us-east-1.amazonaws.com', 'http://52.2.113.244']
     DEBUG = False
 else:
     DEBUG = True

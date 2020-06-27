@@ -113,3 +113,7 @@ sudo /usr/share/elasticsearch/bin/elasticsearch-plugin install discovery-ec2
 ubuntu@ip-172-30-0-151:~$ sudo systemctl restart elasticsearch
 ubuntu@ip-172-30-0-151:~$ sudo vim /etc/default/elasticsearch
 ubuntu@ip-172-30-0-151:~\$ sudo vim /etc/elasticsearch/jvm.options
+
+rabbitmq create user, set permissions
+https://www.rabbitmq.com/rabbitmqctl.8.html
+user name and password are anil, anil

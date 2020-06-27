@@ -169,4 +169,4 @@ else:
     es = elasticsearch.Elasticsearch()
     rabbitmq_broker = RabbitmqBroker()
 
-dramatiq.set_broker(rabbitmq_broker)
+# dramatiq.set_broker(rabbitmq_broker)

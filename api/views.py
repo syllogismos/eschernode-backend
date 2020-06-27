@@ -93,7 +93,7 @@ def send_test_dm(request):
         api = create_api_from_creds(user_details['api_key'], user_details['api_secret'],
                                     user_details['access_token'], user_details['access_token_secret'])
         twitterUser = api.get_user(screen_name=twitterHandle)
-        #api.send_direct_message(twitterUser.id, dm)
+        api.send_direct_message(twitterUser.id, dm)
         es.index('dms', body={
                  'dm': dm, 'escher_account': escher_account, 'twitterHandle': twitterHandle, 't': datetime.datetime.now()})
         return JsonResponse({"status": 200, "message": "dm sent successfully"})

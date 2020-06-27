@@ -121,3 +121,6 @@ ubuntu@ip-172-30-0-151:~\$ sudo vim /etc/elasticsearch/jvm.options
 rabbitmq create user, set permissions
 https://www.rabbitmq.com/rabbitmqctl.8.html
 user name and password are anil, anil
+
+AKIAQXYM4IF3SN3XR77I
+C9nPn/WEDkZcfnRoaexkBD5zNI/iP3bI29rPXmmn

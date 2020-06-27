@@ -31,9 +31,12 @@ if os.environ['ESCHERNODE_ENV'] == 'prod':
     CORS_ORIGIN_WHITELISt = [
         'http://eschernode.s3-website-us-east-1.amazonaws.com', 'http://52.2.113.244']
     DEBUG = False
+    ALLOWED_HOSTS = ['52.2.113.244',
+                     'eschernode.s3-website-us-east-1.amazonaws.com']
 else:
     DEBUG = True
     CORS_ORIGIN_WHITELIST = ['http://localhost:3000']
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 CORS_ALLOW_METHODS = [
@@ -44,7 +47,6 @@ CORS_ALLOW_METHODS = [
     'POST',
     'PUT',
 ]
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '52.2.113.244']
 # CORS_ORIGIN_ALLOW_ALL = True
 
 # APPEND_SLASH = True

@@ -15,6 +15,8 @@ from firebase_admin import firestore, auth
 from firebase_admin import credentials
 import firebase_admin
 import os
+from dramatiq.brokers.rabbitmq import RabbitmqBroker
+import dramatiq
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -162,5 +164,9 @@ def get_user(uid): return auth.get_user(uid)
 
 if os.environ['ESCHERNODE_ENV'] == 'prod':
     es = elasticsearch.Elasticsearch(hosts=['172.30.0.151'])
+    rabbitmq_broker = RabbitmqBroker(host="172.30.0.11")
 else:
     es = elasticsearch.Elasticsearch()
+    rabbitmq_broker = RabbitmqBroker()
+
+dramatiq.set_broker(rabbitmq_broker)

@@ -25,3 +25,50 @@ https://medium.com/@muhammadtriwibowo/set-permanently-ulimit-n-open-files-in-ubu
 
 (base) ubuntu@ip-172-30-0-11:~$ sudo systemctl restart nginx
 (base) ubuntu@ip-172-30-0-11:~$ systemctl status nginx.service
+
+# edit the following file
+
+# edit the following file
+
+user@ubuntu:~\$ sudo vim /etc/security/limits.conf
+
+```
+# add following lines to it
+* soft     nproc          65535
+* hard     nproc          65535
+* soft     nofile         65535
+* hard     nofile         65535
+root soft     nproc          65535
+root hard     nproc          65535
+root soft     nofile         65535
+root hard     nofile         65535
+```
+
+# edit the following file
+
+user@ubuntu:~\$ sudo vim /etc/pam.d/common-session
+
+# add this line to it
+
+session required pam_limits.so
+
+# logout and login and try the following command
+
+user@ubuntu:~\$ ulimit -n
+65535
+
+# edit the following file
+
+user@ubuntu:~\$ sudo vim /etc/pam.d/common-session
+
+# add this line to it
+
+session required pam_limits.so
+
+# logout and login and try the following command
+
+user@ubuntu:~\$ ulimit -n
+65535
+
+es installation
+https://www.elastic.co/guide/en/elasticsearch/reference/current/deb.html

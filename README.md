@@ -72,3 +72,36 @@ user@ubuntu:~\$ ulimit -n
 
 es installation
 https://www.elastic.co/guide/en/elasticsearch/reference/current/deb.html
+
+(escher) ubuntu@ip-172-30-0-11:~/backend\$ sudo rabbitmq-server
+
+## ## RabbitMQ 3.8.5
+
+##
+
+########## Copyright (c) 2007-2020 VMware, Inc. or its affiliates.
+
+######
+
+########## Licensed under the MPL 1.1. Website: https://rabbitmq.com
+
+Doc guides: https://rabbitmq.com/documentation.html
+Support: https://rabbitmq.com/contact.html
+Tutorials: https://rabbitmq.com/getstarted.html
+Monitoring: https://rabbitmq.com/monitoring.html
+
+Logs: /var/log/rabbitmq/rabbit@ip-172-30-0-11.log
+/var/log/rabbitmq/rabbit@ip-172-30-0-11_upgrade.log
+
+Config file(s): (none)
+
+Starting broker... completed with 0 plugins.
+
+cluster.name: eschernode
+network.host: 172.30.0.151
+node.name: node1
+
+discovery.zen.hosts_provider: ec2
+discovery.ec2.groups: sg-0843e97d
+
+sudo /usr/share/elasticsearch/bin/elasticsearch-plugin install discovery-ec2

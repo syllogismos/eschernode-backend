@@ -160,4 +160,7 @@ db = firestore.client()
 def get_user(uid): return auth.get_user(uid)
 
 
-es = elasticsearch.Elasticsearch()
+if os.environ['ESCHERNODE_ENV'] == 'prod':
+    es = elasticsearch.Elasticsearch(hosts=['172.30.0.151'])
+else:
+    es = elasticsearch.Elasticsearch()

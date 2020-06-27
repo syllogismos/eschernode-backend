@@ -37,10 +37,10 @@ CORS_ALLOW_METHODS = [
 # SECURITY WARNING: don't run with debug turned on in production!
 if os.environ['ESCHERNODE_ENV'] == 'prod':
     CORS_ORIGIN_WHITELIST = [
-        'https://eschernode.firebaseapp.com', 'http://52.2.113.244']
+            'https://eschernode.firebaseapp.com', 'http://52.2.113.244', 'https://api.eschernode.com', 'http://api.eschernode.com']
     DEBUG = False
-    ALLOWED_HOSTS = ['52.2.113.244',
-                     'https://eschernode.firebaseapp.com']
+    ALLOWED_HOSTS = ['52.2.113.244', 'api.eschernode.com',
+                     'eschernode.firebaseapp.com']
 else:
     DEBUG = True
     CORS_ORIGIN_WHITELIST = ['http://localhost:3000']

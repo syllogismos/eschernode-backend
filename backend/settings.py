@@ -164,7 +164,7 @@ def get_user(uid): return auth.get_user(uid)
 
 if os.environ['ESCHERNODE_ENV'] == 'prod':
     es = elasticsearch.Elasticsearch(hosts=['172.30.0.151'])
-    rabbitmq_broker = RabbitmqBroker(host="172.30.0.11")
+    rabbitmq_broker = RabbitmqBroker(url="amqp://anil:anil@172.30.0.11:5672")
 else:
     es = elasticsearch.Elasticsearch()
     rabbitmq_broker = RabbitmqBroker()

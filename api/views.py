@@ -6,7 +6,7 @@ from firebase_admin.auth import UserNotFoundError
 from backend.settings import get_user, db, es
 from core.models import UserDetails
 from balaji.filters import getESQueryFromFilters, ParseFilterExcpetion
-from balaji.config import create_api_user_access_tokens
+from balaji.utils import create_api_user_access_tokens
 import datetime
 from balaji.indexusers import index_users
 # Create your views here.

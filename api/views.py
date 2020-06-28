@@ -6,7 +6,7 @@ from firebase_admin.auth import UserNotFoundError
 from backend.settings import get_user, db, es
 from core.models import UserDetails
 from balaji.filters import getESQueryFromFilters, ParseFilterExcpetion
-from balaji.config import create_api_from_creds
+from balaji.config import create_api_user_access_tokens
 import datetime
 from balaji.indexusers import index_users
 # Create your views here.
@@ -40,19 +40,19 @@ def get_user_details(request):
 def update_user_details(request):
     print('in update user details')
     if request.method == 'POST':
-        print(request.body)
+        # print(request.body)
         js = json.loads(request.body.decode('utf-8'))
         try:
             u = get_user(js['uid'])
             db.collection(u'userdetails').document(
                 js['uid']).set(js['data'], merge=True)
-            return JsonResponse({"status": 200, "message": "Data Updated", "userdetails": js['data']})
+            return JsonResponse({"status": 200, "message": "User Data Updated", "userdetails": js['data']})
         except UserNotFoundError:
             return JsonResponse({"status": 400, "message": "User Not Authenticated"})
         except:
             return JsonResponse({"status": 500, "message": "Server Error"})
     elif request.method == 'OPTIONS':
-        print("in options")
+        # print("in options")
         return JsonResponse({'status': 200, 'message': 'in options'})
 
 
@@ -90,8 +90,7 @@ def send_test_dm(request):
         user_details = db.collection(u'userdetails').document(
             js['uid']).get().to_dict()
         # print(user_details)
-        api = create_api_from_creds(user_details['api_key'], user_details['api_secret'],
-                                    user_details['access_token'], user_details['access_token_secret'])
+        api = create_api_user_access_tokens(user_details)
         twitterUser = api.get_user(screen_name=twitterHandle)
         api.send_direct_message(twitterUser.id, dm)
         es.index('dms', body={

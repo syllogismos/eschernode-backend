@@ -9,6 +9,7 @@ from balaji.filters import getESQueryFromFilters, ParseFilterExcpetion
 from balaji.utils import create_api_user_access_tokens
 import datetime
 from balaji.indexusers import index_users
+from balaji.campaign import run_campaign
 # Create your views here.
 
 from django.http import HttpResponse, JsonResponse
@@ -115,9 +116,11 @@ def start_campaign(request):
             return JsonResponse({"status": 400, "message": "User Not Authenticated"})
         campaignRef = db.collection(u'campaigns').document()
         campaignId = campaignRef.id
+        js['created_at'] = datetime.datetime.now()
         try:
             print(js['data'])
             campaignRef.set(js)
+            run_campaign.send(campaignId)
             return JsonResponse({"status": 200, "message": "Campaign Started", "campaignId": campaignId})
         except:
             return JsonResponse({"status": 400, "message": "Creating campaign failed"})

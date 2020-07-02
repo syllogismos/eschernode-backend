@@ -53,7 +53,7 @@ if os.environ['ESCHERNODE_ENV'] == 'prod':
                      'eschernode.firebaseapp.com']
 else:
     DEBUG = True
-    CORS_ORIGIN_WHITELIST = ['http://localhost:3000']
+    CORS_ORIGIN_WHITELIST = ['http://localhost:3000', 'http://127.0.0.1:3000']
     ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
@@ -168,8 +168,10 @@ def get_user(uid): return auth.get_user(uid)
 if os.environ['ESCHERNODE_ENV'] == 'prod':
     es = elasticsearch.Elasticsearch(hosts=['172.30.0.151'])
     rabbitmq_broker = RabbitmqBroker(url="amqp://anil:anil@172.30.0.11:5672")
+    dashboard = 'https://eschernode.com/'
 else:
     es = elasticsearch.Elasticsearch()
     rabbitmq_broker = RabbitmqBroker()
+    dashboard = 'http://127.0.0.1:3000/'
 
 # dramatiq.set_broker(rabbitmq_broker)

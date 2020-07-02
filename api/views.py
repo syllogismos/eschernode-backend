@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 import json
 from firebase_admin.auth import UserNotFoundError
+from firebase_admin import firestore
 
 from backend.settings import get_user, db, es
 from core.models import UserDetails
@@ -121,7 +122,8 @@ def start_campaign(request):
             print(js['data'])
             campaignRef.set(js)
             run_campaign.send(campaignId)
-            return JsonResponse({"status": 200, "message": "Campaign Started", "campaignId": campaignId})
+            js['cid'] = campaignId
+            return JsonResponse({"status": 200, "message": "Campaign Started", "campaign": js})
         except:
             return JsonResponse({"status": 400, "message": "Creating campaign failed"})
 
@@ -180,3 +182,24 @@ def start_index_users(request):
         else:
             index_users.send(js['uid'])
             return JsonResponse({"status": 200, "message": "Indexing Started"})
+
+
+def campaign_dict(c):
+    campaign = c.to_dict()
+    id_dict = {'cid': c.id}
+    return {**campaign, **id_dict}
+
+
+@csrf_exempt
+def get_latest_campaigns(request):
+    if request.method == 'POST':
+        js = json.loads(request.body.decode('utf-8'))
+        try:
+            u = get_user(js['uid'])
+        except UserNotFoundError:
+            return JsonResponse({'status': 400, "message": "User not authenticated"})
+        campaigns = db.collection('campaigns').where('uid', '==', js['uid']).order_by(
+            'created_at', direction=firestore.Query.DESCENDING).limit(10).stream()
+
+        campaigns_response = list(map(campaign_dict, campaigns))
+        return JsonResponse({"status": 200, "message": "campaign query succeeded", "campaigns": campaigns_response})

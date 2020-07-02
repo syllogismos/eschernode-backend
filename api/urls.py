@@ -16,4 +16,6 @@ urlpatterns = [
     path('subscribe_conversion', views.subscribe_conversion,
          name="subscribe_conversion"),
     path('start_index_users', views.start_index_users, name="start_index_users"),
+    path('get_latest_campaigns', views.get_latest_campaigns,
+         name="get_latest_campaigns"),
 ]

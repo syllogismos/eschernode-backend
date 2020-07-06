@@ -152,6 +152,7 @@ def click_track(request):
         js['t'] = datetime.datetime.now()
         print(js)
         es.index('clicks', body=js)
+        print('indexed click')
         return JsonResponse({"status": 200})
 
 

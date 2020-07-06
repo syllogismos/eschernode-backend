@@ -74,7 +74,7 @@ def get_filtered_users(request):
         except ParseFilterExcpetion:
             return JsonResponse({"status": 400, "message": "Improper Filter"})
         print(es_query)
-        es_response = es.search(body=es_query, index="followers*")
+        es_response = es.search(body=es_query, index="followers")
         return JsonResponse({"status": 200, "message": "Users Returned", "es_response": es_response})
 
 
@@ -180,7 +180,7 @@ def start_index_users(request):
             return JsonResponse({"status": 200, "message": "Indexing already started"})
             # do a api.me call here and if it fails send a message creds are wrong
         else:
-            index_users.send(js['uid'])
+            index_users_fast.send(js['uid'])
             return JsonResponse({"status": 200, "message": "Indexing Started"})
 
 

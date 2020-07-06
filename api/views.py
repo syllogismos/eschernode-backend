@@ -9,7 +9,7 @@ from core.models import UserDetails
 from balaji.filters import getESQueryFromFilters, ParseFilterExcpetion
 from balaji.utils import create_api_user_access_tokens
 import datetime
-from balaji.indexusers import index_users
+from balaji.indexusers import index_users, index_users_fast
 from balaji.campaign import run_campaign
 # Create your views here.
 

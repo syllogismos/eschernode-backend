@@ -17,6 +17,8 @@ import firebase_admin
 import os
 from dramatiq.brokers.rabbitmq import RabbitmqBroker
 import dramatiq
+import boto3
+from balaji.config import AWS_ESCHERNODE_EMAIL_ACCESS_KEY, AWS_ESCHERNODE_EMAIL_SECRET_KEY
 
 if 'ESCHERNODE_ENV' not in os.environ:
     os.environ['ESCHERNODE_ENV'] = ''
@@ -175,3 +177,10 @@ else:
     dashboard = 'http://127.0.0.1:3000/'
 
 # dramatiq.set_broker(rabbitmq_broker)
+
+# sparkpost
+# sp = sparkpost.SparkPost(SPARKPOST_API_KEY)
+
+# SES email client
+ses_email_client = boto3.client('ses', aws_access_key_id=AWS_ESCHERNODE_EMAIL_ACCESS_KEY,
+                                aws_secret_access_key=AWS_ESCHERNODE_EMAIL_SECRET_KEY)

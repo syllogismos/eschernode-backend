@@ -11,6 +11,7 @@ from balaji.utils import create_api_user_access_tokens
 import datetime
 from balaji.indexusers import index_users, index_users_fast
 from balaji.campaign import run_campaign
+from balaji.utils import send_email_alert
 # Create your views here.
 
 from django.http import HttpResponse, JsonResponse
@@ -44,10 +45,16 @@ def update_user_details(request):
     if request.method == 'POST':
         # print(request.body)
         js = json.loads(request.body.decode('utf-8'))
+        # print(js)
+        print("########################")
+        print(js['data']['twitterUser']['additionalUserInfo']['isNewUser'])
         try:
             u = get_user(js['uid'])
             db.collection(u'userdetails').document(
                 js['uid']).set(js['data'], merge=True)
+            if 'twitterUser' in js['data'] and js['data']['twitterUser']['additionalUserInfo']['isNewUser']:
+                message = "New User SignUp %s" % js['data']['twitterUser']['additionalUserInfo']['username']
+                send_email_alert(message, message)
             return JsonResponse({"status": 200, "message": "User Data Updated", "userdetails": js['data']})
         except UserNotFoundError:
             return JsonResponse({"status": 400, "message": "User Not Authenticated"})
@@ -123,6 +130,8 @@ def start_campaign(request):
             campaignRef.set(js)
             run_campaign.send(campaignId)
             js['cid'] = campaignId
+            message = "Campaign Start: cid - %s uid %s" % (campaignId, uid)
+            send_email_alert(message, message)
             return JsonResponse({"status": 200, "message": "Campaign Started", "campaign": js})
         except:
             return JsonResponse({"status": 400, "message": "Creating campaign failed"})
@@ -177,11 +186,13 @@ def start_index_users(request):
         user_details = db.collection(u'userdetails').document(
             js['uid']
         ).get().to_dict()
-        if 'index_status' in user_details and user_details['index_status'] == 'indexing':
+        if 'index_status' in user_details and 'indexing' in user_details['index_status']:
             return JsonResponse({"status": 200, "message": "Indexing already started"})
             # do a api.me call here and if it fails send a message creds are wrong
         else:
             index_users_fast.send(js['uid'])
+            message = "New indexing job for %s" % (js['uid'])
+            send_email_alert(message, message)
             return JsonResponse({"status": 200, "message": "Indexing Started"})
 
 

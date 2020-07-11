@@ -183,4 +183,4 @@ else:
 
 # SES email client
 ses_email_client = boto3.client('ses', aws_access_key_id=AWS_ESCHERNODE_EMAIL_ACCESS_KEY,
-                                aws_secret_access_key=AWS_ESCHERNODE_EMAIL_SECRET_KEY)
+                                aws_secret_access_key=AWS_ESCHERNODE_EMAIL_SECRET_KEY, region_name='us-east-1')

@@ -18,4 +18,7 @@ urlpatterns = [
     path('start_index_users', views.start_index_users, name="start_index_users"),
     path('get_latest_campaigns', views.get_latest_campaigns,
          name="get_latest_campaigns"),
+    path('create_payment_intent', views.create_payment_intent,
+         name="create_payment_intent"),
+
 ]

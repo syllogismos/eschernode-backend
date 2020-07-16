@@ -1,3 +1,4 @@
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 import json
@@ -12,9 +13,10 @@ import datetime
 from balaji.indexusers import index_users, index_users_fast
 from balaji.campaign import run_campaign
 from balaji.utils import send_email_alert
+from balaji.config import STRIPE_API_KEY_TEST
+import stripe
+stripe.api_key = STRIPE_API_KEY_TEST
 # Create your views here.
-
-from django.http import HttpResponse, JsonResponse
 
 
 def index(request):
@@ -215,3 +217,20 @@ def get_latest_campaigns(request):
 
         campaigns_response = list(map(campaign_dict, campaigns))
         return JsonResponse({"status": 200, "message": "campaign query succeeded", "campaigns": campaigns_response})
+
+
+@csrf_exempt
+def create_payment_intent(request):
+    if request.method == 'POST':
+        js = json.loads(request.body.decode('utf-8'))
+        try:
+            u = get_user(js['uid'])
+        except UserNotFoundError:
+            return JsonResponse({'status': 400, "message": "User not authenticated"})
+        amount = js['amount']
+        intent = stripe.PaymentIntent.create(
+            amount=amount,
+            currency='inr'
+        )
+        print(intent)
+        return JsonResponse({"status": 200, "message": "payment intent created", "clientSecret": intent['client_secret']})

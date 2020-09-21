@@ -1,3 +1,10 @@
+# Introduction
+
+Python Django backend for twitter export [tool](eschernode.com), where you can filter your twitter followers and send them targeted messaging campaigns.
+[FrontEnd Github](https://github.com/syllogismos/eschernode-dashboard)
+
+# Support Notes
+
 `bash Miniconda3-latest-Linux-x86_64.sh`
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 

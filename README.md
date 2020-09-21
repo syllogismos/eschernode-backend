@@ -100,7 +100,7 @@ Starting broker... completed with 0 plugins.
 ############### elasticsearch links and settings
 https://www.elastic.co/guide/en/elasticsearch/reference/current/deb.html paths of various files
 cluster.name: eschernode
-network.host: 172.30.0.151
+network.host: 172.30.0.20
 node.name: node1
 
 discovery.zen.hosts_provider: ec2
@@ -123,8 +123,5 @@ https://www.rabbitmq.com/rabbitmqctl.8.html
 user name and password are anil, anil
 sudo rabbitmqctl add_user username password
 sudo rabbitmqctl set_user_tags anil administrator # to acccccess the rabbitmq managemnt dashboard from browser
-
-AKIAQXYM4IF3SN3XR77I
-C9nPn/WEDkZcfnRoaexkBD5zNI/iP3bI29rPXmmn
 
 sudo rm -rf /var/lib/elasticsearch/nodes to delete the existing data folder so that it will join the cluster

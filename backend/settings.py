@@ -160,7 +160,7 @@ STATIC_URL = '/static/'
 # Firestore db access
 
 # Use a service account
-cred = credentials.Certificate('./eschernode-373840eb4f72.json')
+cred = credentials.Certificate('./eschernode-7d981168a58b.json')
 firebase_admin.initialize_app(cred)
 
 db = firestore.client()
